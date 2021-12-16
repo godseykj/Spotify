@@ -1,0 +1,435 @@
+[
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-11T12:31:59.595Z[UTC]",
+    "searchQuery" : "barl",
+    "searchInteractionURIs" : [
+      "spotify:artist:3VMSmJURVM7s6LkrIaPZvi"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-12T01:49:56.840Z[UTC]",
+    "searchQuery" : "lorde",
+    "searchInteractionURIs" : [
+      "spotify:artist:163tK9Wjr9P9DmM0AVK7lm"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-17T12:40:57.028Z[UTC]",
+    "searchQuery" : "kel",
+    "searchInteractionURIs" : [
+      "spotify:artist:3RqBeV12Tt7A8xH3zBDDUF"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-20T02:18:37.052Z[UTC]",
+    "searchQuery" : "5sos",
+    "searchInteractionURIs" : [
+      "spotify:artist:5Rl15oVamLq7FbSb0NNBNy"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-23T00:49:01.259Z[UTC]",
+    "searchQuery" : "billi",
+    "searchInteractionURIs" : [
+      "spotify:artist:6qqNVTkY8uBg9cP3Jd7DAH"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-23T00:49:09.177Z[UTC]",
+    "searchQuery" : "happier",
+    "searchInteractionURIs" : [
+      "spotify:track:0gLXF5LtNkqDoeVVGjCsEu",
+      "spotify:track:0gLXF5LtNkqDoeVVGjCsEu"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-24T18:41:18.335Z[UTC]",
+    "searchQuery" : "happier",
+    "searchInteractionURIs" : [
+      "spotify:track:4RVwu0g32PAqgUiJoXsdF8",
+      "spotify:track:32BeYxKPrig1LefHsC0Xuo"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-24T18:41:30.264Z[UTC]",
+    "searchQuery" : "happier than ever",
+    "searchInteractionURIs" : [
+      "spotify:playlist:4nGWae7EKGo3C3PLBI7qkt",
+      "spotify:track:32BeYxKPrig1LefHsC0Xuo",
+      "spotify:track:32BeYxKPrig1LefHsC0Xuo",
+      "spotify:playlist:2LogkMd9bOrM6DgMFDEnon",
+      "spotify:playlist:4nGWae7EKGo3C3PLBI7qkt",
+      "spotify:playlist:2LogkMd9bOrM6DgMFDEnon"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-24T18:44:18.541Z[UTC]",
+    "searchQuery" : "paramo",
+    "searchInteractionURIs" : [
+      "spotify:artist:74XFHRwlV6OrjEM0A2NCMF"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-26T15:43:07.635Z[UTC]",
+    "searchQuery" : "thougt about you",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-09-27T17:41:37.388Z[UTC]",
+    "searchQuery" : "cara",
+    "searchInteractionURIs" : [
+      "spotify:artist:2wUjUUtkb5lvLKcGKsKqsR"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-01T15:19:31.041Z[UTC]",
+    "searchQuery" : "lauren ",
+    "searchInteractionURIs" : [
+      "spotify:artist:1v3tdpIdBSW14rHUfiEVOv"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-05T01:57:26.730Z[UTC]",
+    "searchQuery" : "brynn ca",
+    "searchInteractionURIs" : [
+      "spotify:artist:4NIPR04MgEH0K5uv8Gn7ek"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-06T21:24:31.848Z[UTC]",
+    "searchQuery" : "jay josep",
+    "searchInteractionURIs" : [
+      "spotify:artist:4u0LZVufnwy5PwAxgV7wXl"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-08T12:57:07.007Z[UTC]",
+    "searchQuery" : "shea s",
+    "searchInteractionURIs" : [
+      "spotify:artist:1XT3f4ndBuXQuA9FTcCXT0"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-08T14:33:39.018Z[UTC]",
+    "searchQuery" : "tenille",
+    "searchInteractionURIs" : [
+      "spotify:artist:3TyeX0lk4B7k56ukfzEE0z"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-12T14:25:14.448Z[UTC]",
+    "searchQuery" : "taylor b",
+    "searchInteractionURIs" : [
+      "spotify:artist:3Fxg10eJ6YmvUdM2PPB4Zk"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-12T14:49:16.706Z[UTC]",
+    "searchQuery" : "taylor b",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-10-23T02:46:30.932Z[UTC]",
+    "searchQuery" : "beggin",
+    "searchInteractionURIs" : [
+      "spotify:track:3Wrjm47oTz2sjIgck11l5e",
+      "spotify:track:3Wrjm47oTz2sjIgck11l5e"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-02T22:31:48.341Z[UTC]",
+    "searchQuery" : "johnny ",
+    "searchInteractionURIs" : [
+      "spotify:artist:6aX6KqXgEcARRHwvWxHcFW"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-03T18:19:32.255Z[UTC]",
+    "searchQuery" : "twnety",
+    "searchInteractionURIs" : [
+      "spotify:playlist:2E6vAIGycJq6Oj8qixDEpa"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-04T14:48:51.735Z[UTC]",
+    "searchQuery" : "outsider heart",
+    "searchInteractionURIs" : [
+      "spotify:artist:5oCklhVXuzv2vN9BhVaSeU"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-04T15:29:52.166Z[UTC]",
+    "searchQuery" : "outsider heart",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-04T17:50:33.999Z[UTC]",
+    "searchQuery" : "ellie",
+    "searchInteractionURIs" : [
+      "spotify:artist:0X2BH1fck6amBIoJhDVmmJ"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-05T12:04:34.298Z[UTC]",
+    "searchQuery" : "hollyn",
+    "searchInteractionURIs" : [
+      "spotify:artist:2E6Nnh7AAOVajEHHRDALav"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-09T04:28:40.628Z[UTC]",
+    "searchQuery" : "breakup",
+    "searchInteractionURIs" : [
+      "spotify:playlist:5FeHyyiioSObGs9mIVqW5b"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-11T22:08:00.795Z[UTC]",
+    "searchQuery" : "lauren d",
+    "searchInteractionURIs" : [
+      "spotify:artist:40LHVA5BTQp9RxHOQ9JPYj"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-11T22:08:16.710Z[UTC]",
+    "searchQuery" : "lauren daigle complete",
+    "searchInteractionURIs" : [
+      "spotify:playlist:4ubZ0WWEVvQIPNqfq9M8Wx"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-12T05:04:25.788Z[UTC]",
+    "searchQuery" : "taylo",
+    "searchInteractionURIs" : [
+      "spotify:artist:06HL4z0CvFAxyc27GXpf02"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-12T18:58:00.128Z[UTC]",
+    "searchQuery" : "breakup",
+    "searchInteractionURIs" : [
+      "spotify:playlist:4RIrL3nZjr8ejynu7LClSi",
+      "spotify:playlist:7lalJK7Ex19W0V9Sg0ljE8",
+      "spotify:playlist:1DW8iudbAvG9fAtnA5oFpw"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-12T19:00:41.410Z[UTC]",
+    "searchQuery" : "breakup",
+    "searchInteractionURIs" : [
+      "spotify:playlist:71WwgHVfrHhyMojRfo2msz"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-12T19:02:43.119Z[UTC]",
+    "searchQuery" : "breakup bounce back",
+    "searchInteractionURIs" : [
+      "spotify:playlist:5g3Y34YVBpgQfORMRsO886",
+      "spotify:playlist:1tIGaVwK0FxwkWxIQ29Vfa",
+      "spotify:playlist:2WMQ4TaVbb5XpGL9Uo80iS",
+      "spotify:playlist:1v7oMmvgmi7uBl7yU8ioE7",
+      "spotify:playlist:6UfkX7rsaVOZsmNfXlr9rL"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-16T17:28:01.400Z[UTC]",
+    "searchQuery" : "dualip",
+    "searchInteractionURIs" : [
+      "spotify:artist:6M2wZ9GZgrQXHCFfjv46we"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-17T18:12:22.313Z[UTC]",
+    "searchQuery" : "jp saxe",
+    "searchInteractionURIs" : [
+      "spotify:artist:66W9LaWS0DPdL7Sz8iYGYe"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-17T18:21:53.304Z[UTC]",
+    "searchQuery" : "jp saxe",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-17T18:29:19.516Z[UTC]",
+    "searchQuery" : "jp saxe",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-19T13:17:19.809Z[UTC]",
+    "searchQuery" : "obb",
+    "searchInteractionURIs" : [
+      "spotify:artist:2j8Rhj6E5iiRJFh6DO7e5t"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-21T11:36:16.635Z[UTC]",
+    "searchQuery" : "astri",
+    "searchInteractionURIs" : [
+      "spotify:artist:3AVfmawzu83sp94QW7CEGm"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-22T03:22:22.512Z[UTC]",
+    "searchQuery" : "conan",
+    "searchInteractionURIs" : [
+      "spotify:artist:4Uc8Dsxct0oMqx0P6i60ea"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-28T12:57:08.971Z[UTC]",
+    "searchQuery" : "second co",
+    "searchInteractionURIs" : [
+      "spotify:artist:2RQN5dFKtdR5cXWsZtSldV"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-29T23:47:25.202Z[UTC]",
+    "searchQuery" : "cavetown",
+    "searchInteractionURIs" : [
+      "spotify:artist:2hR4h1Cao2ueuI7Cx9c7V8"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-30T14:58:09.089Z[UTC]",
+    "searchQuery" : "jo",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-30T18:46:32.627Z[UTC]",
+    "searchQuery" : "pent",
+    "searchInteractionURIs" : [
+      "spotify:artist:26AHtbjWKiwYzsoGoUZq53"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-11-30T19:04:28.709Z[UTC]",
+    "searchQuery" : "pent",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-02T02:52:11.377Z[UTC]",
+    "searchQuery" : "shawn",
+    "searchInteractionURIs" : [
+      "spotify:artist:7n2wHs1TKAczGzO7Dd2rGr"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-02T04:33:33.960Z[UTC]",
+    "searchQuery" : "sh",
+    "searchInteractionURIs" : [
+      "spotify:artist:7n2wHs1TKAczGzO7Dd2rGr"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-03T03:35:00.337Z[UTC]",
+    "searchQuery" : "minn",
+    "searchInteractionURIs" : [
+      "spotify:artist:0IqjJsWlAPR2IafHTtnjPQ"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-03T22:55:34.863Z[UTC]",
+    "searchQuery" : "happier than ",
+    "searchInteractionURIs" : [
+      "spotify:track:6acCFTsXAYNtcs3fwfn5CK"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-05T11:54:39.227Z[UTC]",
+    "searchQuery" : "youve done the",
+    "searchInteractionURIs" : [
+      "spotify:track:4jwOLoEPJaOvluUYBNpxCy",
+      "spotify:track:0h7G9HZb5KIfSLjaSXk9C8"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-05T12:14:35.365Z[UTC]",
+    "searchQuery" : "youve done the rest",
+    "searchInteractionURIs" : [
+      "spotify:track:54xNzVGZhFZY275TCDooCr",
+      "spotify:track:54xNzVGZhFZY275TCDooCr",
+      "spotify:track:54xNzVGZhFZY275TCDooCr"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-05T13:15:50.065Z[UTC]",
+    "searchQuery" : "youve done the rest",
+    "searchInteractionURIs" : [
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-06T13:23:41.334Z[UTC]",
+    "searchQuery" : "mother",
+    "searchInteractionURIs" : [
+      "spotify:artist:0e86yPdC41PGRkLp2Q1Bph"
+    ]
+  },
+  {
+    "platform" : "IPHONE",
+    "searchTime" : "2021-12-06T15:45:24.174Z[UTC]",
+    "searchQuery" : "locked on marl",
+    "searchInteractionURIs" : [
+      "spotify:show:3Nw9fUdWw7a7pkIYFMhUcV"
+    ]
+  }
+]
