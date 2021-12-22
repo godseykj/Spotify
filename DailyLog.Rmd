@@ -1,0 +1,73 @@
+---
+title: "Spotify - Daily Log"
+author: "Kara Godsey"
+date: "12/21/2021"
+output: html_document
+---
+
+```{r include=FALSE}
+library(jsonlite)
+library(kableExtra)
+library(dplyr)
+library(ggplot2)
+```
+
+
+```{r include=FALSE}
+x1 <- fromJSON("Data/StreamingHistory0.json")
+x1 <- data.frame(x1)
+x2 <- fromJSON("Data/StreamingHistory1.json")
+x2 <- data.frame(x2)
+x3 <- fromJSON("Data/StreamingHistory2.json")
+x3 <- data.frame(x3)
+streams <- rbind(x1,x2,x3)
+library <- fromJSON("Data/YourLibrary.json", flatten=TRUE)
+#View(library)
+str(library)
+lib.tracks <- data.frame(library$tracks)
+lib.albums <- data.frame(library$albums)
+lib.artists <- data.frame(library$artists)
+playlist <- fromJSON("Data/Playlist1.json")
+playlists <- playlist$playlists
+
+```
+
+
+## Day 1: December 22, 2021
+
+The streams table will be the most helpful. Here is what it looks like.
+
+```{r}
+head(streams) %>% 
+  kbl() %>% 
+  kable_styling()
+```
+
+This chart shows the time at which the track was ended, the artist, the name of the track, and how long the track was played. The final column *msPlayed* stands for milliseconds played, so a conversion is necessary here in order to consider song lengths in seconds or minutes. 
+
+```{r}
+streams <- streams %>% 
+  mutate(sec = msPlayed / 1000)
+streams$endTime <- as.POSIXct(streams$endTime)
+head(streams) %>% 
+  kbl() %>% 
+  kable_styling()
+```
+
+Taylor Swift was my top artist of 2021, so now I want to know which of her songs I listened to the most.
+
+```{r fig.height=10}
+tswizzle <- streams %>% 
+  filter(format(endTime, "%Y") == 2021, artistName == "Taylor Swift") %>% 
+  group_by(trackName) %>% 
+  summarize(plays = n()) %>% 
+  arrange(desc(plays))
+tswizzle[1:20,] %>% 
+  kbl() %>% 
+  kable_styling()
+ggplot(tswizzle[1:20,]) +
+  geom_bar(aes(x=trackName, y=plays), stat="identity") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+Preliminary graph above. Improvements to make: Highlight bars with different colors based on which album they are from, show number in the bar, adjust theme to remove grid lines, center title of graph, adjust axes titles, insert legend that explains colors, cite data in corner, add twitter in corner, remove everything in parentheses? (especially to combine counts of Taylor's Version songs with the orginial songs)
