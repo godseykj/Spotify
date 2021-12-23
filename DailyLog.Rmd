@@ -58,7 +58,7 @@ Taylor Swift was my top artist of 2021, so now I want to know which of her songs
 
 ```{r fig.height=10}
 tswizzle <- streams %>% 
-  filter(format(endTime, "%Y") == 2021, artistName == "Taylor Swift") %>% 
+  filter(format(endTime, "%Y") == 2021, artistName == "Taylor Swift", msPlayed > 10000) %>% 
   group_by(trackName) %>% 
   summarize(plays = n()) %>% 
   arrange(desc(plays))
@@ -70,4 +70,33 @@ ggplot(tswizzle[1:20,]) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
-Preliminary graph above. Improvements to make: Highlight bars with different colors based on which album they are from, show number in the bar, adjust theme to remove grid lines, center title of graph, adjust axes titles, insert legend that explains colors, cite data in corner, add twitter in corner, remove everything in parentheses? (especially to combine counts of Taylor's Version songs with the orginial songs)
+Preliminary graph above. Improvements to make: Highlight bars with different colors based on which album they are from, show number in the bar, adjust theme to remove grid lines, center title of graph, adjust axes titles, insert legend that explains colors, cite data in corner, add twitter in corner, remove everything in parentheses? (especially to combine counts of Taylor's Version songs with the original songs)
+
+## Day 2: December 23, 2021
+
+Time to make some improvements to the graph. First, the data needs to be updated to exclude songs that were skipped. I will consider songs played for less than 10 seconds to be songs that have been skipped. This corresponds to 10,000 milliseconds. This update was added retroactively to the previous code chunk since `tswizzle` is a summarized table.
+
+Now the goal is to join the album name into the `tswizzle` table. Connecting to `lib.albums` should do the trick.
+
+```{r}
+tswizz_albums <- tswizzle %>%
+  left_join(subset(lib.tracks, artist == "Taylor Swift"), by = c("trackName" = "track")) %>% 
+  select(trackName, album, plays)
+head(tswizz_albums) %>% 
+  kbl() %>% 
+  kable_styling()
+```
+
+The problem with this is that we have NA for some album titles. This theoretically should be solved when I get my extended streaming history. However, the problem here is that `lib.tracks` is a dataset containing only the tracks that I have saved in my library. Thus, those albums that I have not saved will not show up in the data. For example, I have saved evermore, but I did not save the deluxe edition so it is not identifying an album for right where you left me. Hopefully this problem will be fixed with the new wave of data. Otherwise, there will be some manual clean up to do.
+
+```{r fig.height=10}
+ggplot(tswizzle[1:20,]) +
+  geom_bar(aes(x=trackName, y=plays, fill="light red"), stat="identity") +
+  geom_text(aes(x=trackName, y=plays, label=plays), vjust="top") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),panel.background = element_rect(fill="white"), axis.line=element_line(colour="black")) +
+  labs(title = "Top 20 Taylor Swift Songs", x="Song", y="Number of Plays") +
+  annotate("text", x=18, y = 68, label="Data: Spotify", color= "light gray") +
+  annotate("text", x=18, y=65, label = "Viz: @KaraGodsey", color = "light gray") +
+  guides(fill = FALSE)
+```
+

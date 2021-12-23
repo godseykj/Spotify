@@ -16,3 +16,21 @@ lib.albums <- data.frame(library$albums)
 lib.artists <- data.frame(library$artists)
 playlist <- fromJSON("Data/Playlist1.json")
 playlists <- playlist$playlists
+View(lib.albums)
+View(lib.tracks)
+streams <- streams %>% 
+  mutate(sec = msPlayed / 1000)
+streams$endTime <- as.POSIXct(streams$endTime)
+tswizzle <- streams %>% 
+  filter(format(endTime, "%Y") == 2021, artistName == "Taylor Swift", msPlayed > 10000) %>% 
+  group_by(trackName) %>% 
+  summarize(plays = n()) %>% 
+  arrange(desc(plays))
+tswizzle[1:20,] 
+ggplot(tswizzle[1:20,]) +
+  geom_bar(aes(x=trackName, y=plays), stat="identity") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+tswizzle <- tswizzle %>%
+  left_join(subset(lib.tracks, artist == "Taylor Swift"), by = c("trackName" = "track")) %>% 
+  select(trackName, album, plays)
+head(tswizzle)
