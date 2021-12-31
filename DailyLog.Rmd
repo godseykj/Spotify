@@ -100,3 +100,74 @@ ggplot(tswizzle[1:20,]) +
   guides(fill = FALSE)
 ```
 
+## Day 3: December 31, 2021
+
+Looking for a word art/cloud thing with the artist names. Potentially could do this with song titles as well.
+
+There seem to be a few different ways to go about this, but I will mainly reference [this resource](https://towardsdatascience.com/create-a-word-cloud-with-r-bde3e7422e8a).
+
+First things first, installing the necessary packages.
+
+```{r}
+#wordcloud packages
+#install.packages("wordcloud")
+library(wordcloud)
+#install.packages("RColorBrewer")
+library(RColorBrewer)
+#install.packages("wordcloud2")
+library(wordcloud2)
+
+#text mining packages
+#install.packages("tm")
+library(tm)
+```
+
+There are two different word cloud packages. The older version will get the basic word cloud, but I believe the newer version of word cloud will allow me to make a cloud in the shape of the Spotify logo which could be cool. 
+
+To do this with artist names, the names have to be smashed together otherwise it won't have the desired effect. For example, I want Taylor Swift to show up together rather than a giant Taylor and a little Swift in the background. It may not be as simple as smashing the first and last names together because some of the artist name values include (feat. "another artist"), but I think this problem will arise more with the song titles. 
+
+```{r}
+artists <- streams %>% 
+  filter(msPlayed > 10000) %>% #filtering out skips
+  select(artistName)
+#gsub(" ","",artists$artistName) #removing spaces
+```
+
+The article recommends converting to a corpus, but because my data is already in tables, this is not necessary. Instead, I will just use `dplyr` functions to make a table of the frequencies that can be used to generate a word cloud.
+
+```{r}
+summary <- artists %>% 
+  group_by(artistName) %>% 
+  summarize(freq = n()) %>% 
+  arrange(desc(freq))
+```
+
+And finally, the generation of the word cloud. Although there are just over 1,000 unique artists in this data set, the word cloud is restricted to the top 100 to avoid the additional time it takes to generate the Markdown file with so many data points.
+
+```{r}
+wordcloud(words=summary$artistName, freq=summary$freq, min.freq=1, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(20, "Dark2"))
+```
+
+Now the goal is to use the new word cloud package (`wordcloud2`) to make this word cloud appear in the shape of the Spotify logo. There is a general explanation of how this is possible in [this vignette](https://cran.r-project.org/web/packages/wordcloud2/vignettes/wordcloud.html#lettercloud-function). 
+
+```{r}
+#figPath = system.file("spotlogo1.png", package="wordcloud2")
+wordcloud2(summary, shape='circle', color = "lightgreen", backgroundColor = "black", size=.5)
+wordcloud2(summary, size = 1, color="lightgreen", backgroundColor="black",figPath = "testpic2.png")
+```
+
+No such luck with the custom images above, so it's time to try a new method: the `ggwordcloud` package.
+
+```{r}
+library(ggwordcloud)
+ggplot(summary, aes(label = artistName, size = freq)) +
+  geom_text_wordcloud_area(
+    mask = png::readPNG(system.file("testpic2.png",
+      package = "ggwordcloud", mustWork = TRUE
+    )),
+    rm_outside = TRUE
+  ) +
+  scale_size_area(max_size = 18) +
+  theme_minimal()
+```
+
