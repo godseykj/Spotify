@@ -1,7 +1,8 @@
 ---
-title: | 
-    | Spotify Wrapped Unwrapped:
-    | The Guts
+title: |
+  <center> Spotify Wrapped Unwrapped </center>
+  <center> The Guts </center>
+  
 author: "Kara Godsey"
 date: "12/31/2021"
 output: html_document
