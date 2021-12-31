@@ -1,4 +1,11 @@
 ---
+title: "Log"
+author: "Kara Godsey"
+date: "12/31/2021"
+output: html_document
+---
+
+---
 title: "Spotify - Daily Log"
 author: "Kara Godsey"
 date: "12/21/2021"
