@@ -151,11 +151,12 @@ wordcloud(words=summary$artistName, freq=summary$freq, min.freq=1, max.words=100
 Now the goal is to use the new word cloud package (`wordcloud2`) to make this word cloud appear in the shape of the Spotify logo. There is a general explanation of how this is possible in [this vignette](https://cran.r-project.org/web/packages/wordcloud2/vignettes/wordcloud.html#lettercloud-function). 
 
 ```{r}
-#require(devtools)
-#install_github("lchiffon/wordcloud2")
+require(devtools)
+install_github("lchiffon/wordcloud2")
 #figPath = system.file("spotlogo1.png", package="wordcloud2")
-wordcloud2(summary, shape='circle', color = "lightgreen", backgroundColor = "black", size=.5)
-wordcloud2(summary, size =.5, color="lightgreen", backgroundColor="black",figPath = "testpic2.png")
+wordcloud2(summary[1:50,], shape='circle', color = "lightgreen", backgroundColor = "black", size=.5)
+filepath <- "~/R/Spotify/testpic2.png"
+wordcloud2(summary[1:50,], size =.25, color="lightgreen", figPath = filepath)
 ```
 
 No such luck with the custom images above, so it's time to try a new method: the `ggwordcloud` package.
@@ -163,12 +164,14 @@ No such luck with the custom images above, so it's time to try a new method: the
 ```{r eval=FALSE}
 #this chunk does not work yet
 library(ggwordcloud)
-ggplot(summary, aes(label = artistName, size = freq)) +
+ggplot(summary[1:50,], aes(label = artistName, size = freq)) +
   geom_text_wordcloud_area(
-    mask = "testpic2.png",
+    mask = png::readPNG(system.file("~/R/Spotify/testpic2.png",
+      package = "ggwordcloud", mustWork = TRUE
+    )),
     rm_outside = FALSE
   ) +
-  scale_size_area(max_size = 18) +
+  scale_size_area(max_size = 10) +
   theme_minimal()
 ```
 
