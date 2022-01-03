@@ -155,8 +155,24 @@ require(devtools)
 install_github("lchiffon/wordcloud2")
 #figPath = system.file("spotlogo1.png", package="wordcloud2")
 wordcloud2(summary[1:50,], shape='circle', color = "lightgreen", backgroundColor = "black", size=.5)
-filepath <- "~/R/Spotify/testpic2.png"
-wordcloud2(summary[1:50,], size =.25, color="lightgreen", figPath = filepath)
+filepath <- "~/R/Spotify/spotlogo1.png"
+top <- artists %>% 
+  group_by(artistName) %>% 
+  summarize(freq = n()) %>% 
+  arrange(desc(freq))
+top200 <- top[1:200,]
+top200$id <- seq(1:200)
+plot(top200$id, top200$freq) #looks like we want to cut at like 20
+top200[21:200, "freq"] <- 25
+top200$freq <- (top200$freq)^(1/4)
+logocloud <- wordcloud2(top200, size =.2, color="lightgreen", figPath = filepath, backgroundColor = "black", gridSize = 0.5)
+logocloud
+top250 <- top[1:250,]
+top250$freq <- 1
+samelogocloud <- wordcloud2(top250, size =.060, color="lightgreen", figPath = filepath, backgroundColor = "black", gridSize = 0.75)
+samelogocloud
+library(jpeg)
+writeJPEG(logocloud, "logo_ifalleslefails.jpeg")
 ```
 
 No such luck with the custom images above, so it's time to try a new method: the `ggwordcloud` package.
