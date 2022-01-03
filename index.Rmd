@@ -151,27 +151,49 @@ And finally, the generation of the word cloud. Although there are just over 1,00
 wordcloud(words=summary$artistName, freq=summary$freq, min.freq=1, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(20, "Dark2"))
 ```
 
+## Day 4: January 2, 2022
+
 Now the goal is to use the new word cloud package (`wordcloud2`) to make this word cloud appear in the shape of the Spotify logo. There is a general explanation of how this is possible in [this vignette](https://cran.r-project.org/web/packages/wordcloud2/vignettes/wordcloud.html#lettercloud-function). 
 
+This is the word cloud function that will be used to make the custom shape; the example here simply uses the built-in circle shape to demonstrate.
+
 ```{r}
-#require(devtools)
-#install_github("lchiffon/wordcloud2")
+require(devtools)
+install_github("lchiffon/wordcloud2")
 #figPath = system.file("spotlogo1.png", package="wordcloud2")
-wordcloud2(summary, shape='circle', color = "lightgreen", backgroundColor = "black", size=.5)
-wordcloud2(summary, size =.5, color="lightgreen", backgroundColor="black",figPath = "testpic2.png")
+wordcloud2(summary[1:50,], shape='circle', color = "lightgreen", backgroundColor = "black", size=.5)
 ```
 
-No such luck with the custom images above, so it's time to try a new method: the `ggwordcloud` package.
+Next, I attempted to get a word cloud with the custom shape as well as size of words corresponding to frequency. It didn't look great and the porportions were so different (Taylor Swift almost double the next highest) that it did not turn out well. Thus, the following code is not evaluated but here for reference later.
 
 ```{r eval=FALSE}
-#this chunk does not work yet
-library(ggwordcloud)
-ggplot(summary, aes(label = artistName, size = freq)) +
-  geom_text_wordcloud_area(
-    mask = "testpic2.png",
-    rm_outside = FALSE
-  ) +
-  scale_size_area(max_size = 18) +
-  theme_minimal()
+top <- artists %>% 
+  group_by(artistName) %>% 
+  summarize(freq = n()) %>% 
+  arrange(desc(freq))
+top200 <- top[1:200,]
+top200$id <- seq(1:200)
+plot(top200$id, top200$freq) #looks like we want to cut at like 20
+top200[21:200, "freq"] <- 25
+top200$freq <- (top200$freq)^(1/4)
+logocloud <- wordcloud2(top200, size =.2, color="lightgreen", figPath = filepath, backgroundColor = "black", gridSize = 0.5)
+logocloud
 ```
 
+Thanks to my brilliant roommate, the resulting graphic is composed of all titles that are the same size. This ends up making it look more like the Spotify logo, and it also ensures that every artist that I want to appear is included in the cloud. In the code example I used top 250 artists. However, it is difficult to get the widget to load properly (have to refresh in the R viewer), so I just took a screenshot of the R viewer output and attached a jpeg of one of the iterations that looked most appealing.
+
+```{r}
+top <- artists %>% 
+  group_by(artistName) %>% 
+  summarize(freq = n()) %>% 
+  arrange(desc(freq))
+top250 <- top[1:250,]
+top250$freq <- 1
+filepath <- "~/R/Spotify/spotlogo1.png"
+samelogocloud <- wordcloud2(top250, size =.060, color="green", figPath = filepath, backgroundColor = "black", gridSize = 0.75)
+samelogocloud
+```
+
+![](logo2.jpg)
+
+![](logo3.jpg)
