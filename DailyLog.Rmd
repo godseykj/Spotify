@@ -10,6 +10,7 @@ library(jsonlite)
 library(kableExtra)
 library(dplyr)
 library(ggplot2)
+library(lubridate)
 ```
 
 
@@ -187,10 +188,73 @@ top <- artists %>%
 top250 <- top[1:250,]
 top250$freq <- 1
 filepath <- "~/R/Spotify/spotlogo1.png"
-#samelogocloud <- wordcloud2(top250, size =.060, color="lightgreen", figPath = filepath, backgroundColor = "black", gridSize = 0.75)
-#samelogocloud
+samelogocloud <- wordcloud2(top250, size =.060, color="green3", figPath = filepath, backgroundColor = "black", gridSize = 0.75)
+samelogocloud
 ```
 
 ![](logo2.jpg)
 
 ![](logo3.jpg)
+
+![](logo5.jpg)
+
+## Day 5: January 6, 2022
+
+Time to track number of plays per day. Using the lubridate package, we will break off the day and month for each of the graphs below. 
+
+```{r}
+streams_noskips <- streams %>% 
+  filter(msPlayed >10000) %>% 
+  mutate(day = yday(endTime), month= month(endTime))
+byday <- streams_noskips %>% 
+  group_by(day) %>% 
+  summarize(plays = n())
+bymonth <- streams_noskips %>% 
+  group_by(month) %>% 
+  summarize(plays = n())
+```
+
+The first plot will be tracking the number of plays per day.
+
+```{r}
+ggplot(byday, aes(day, plays)) +
+  geom_point(color="green") +
+  geom_line() +
+  labs(title = "Plays by Day", x = "Day", y = "Number of Plays") +
+  theme(panel.background = element_rect(fill="white"), axis.line=element_line(colour="black"))
+```
+
+This worked out pretty well, but there are a ton of days which makes it difficult to read the graph. To resolve this, we shall consider each month rather than each day.
+
+```{r}
+ggplot(bymonth, aes(month, plays)) +
+  geom_point(color="green") +
+  geom_line(color="green") +
+  labs(title = "Plays by Month", x = "Month", y = "Number of Plays") +
+  theme(panel.background = element_rect(fill="black"), axis.line=element_line(colour="green"), panel.grid = element_line("black"))
+```
+
+This is a good start, but the plot would look better as a bar graph.
+
+```{r}
+ggplot(bymonth, aes(month, plays)) +
+  geom_bar(color="green",stat="identity", fill="green") +
+  labs(title = "Plays by Month", x = "Month", y = "Number of Plays") +
+  theme(panel.background = element_rect(fill="black"), axis.line=element_line(colour="green"), panel.grid = element_line("black")) +
+  geom_text(aes(x=month, y=plays, label=plays), vjust="top", color = "black") +
+  scale_x_continuous(breaks=seq(1,12),labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")) 
+```
+
+This is real nice, now let's see if we can change up the aesthetic a bit.
+
+```{r}
+ggplot(bymonth, aes(month, plays)) +
+  geom_bar(color="green3",stat="identity", fill="green3") +
+  labs(title = "Plays by Month", x = "Month", y = "Number of Plays") +
+  theme(panel.background = element_rect(fill="black"), axis.line=element_line(color="green3"), panel.grid = element_line("black"), plot.background =  element_rect(fill="black"), axis.text = element_text(colour = "white"), axis.title = element_text(colour = "white"), title = element_text(colour = "white", hjust=0.5), plot.title=element_text(hjust=0.5)) +
+  geom_text(aes(x=month, y=plays, label=plays), vjust="top", color = "black") +
+  scale_x_continuous(breaks=seq(1,12),labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")) +
+  coord_cartesian(clip = "off")
+```
+
+The green here is a little more muted, which is better to look at and more consistent with the logo. I like that the black extends past the axes, but my roommate did not like that so we shall see if it sticks.
