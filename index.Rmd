@@ -2,7 +2,6 @@
 title: |
   <center> Spotify Wrapped Unwrapped </center>
   <center> The Guts </center>
-  
 author: "Kara Godsey"
 date: "12/31/2021"
 output: html_document
@@ -18,6 +17,7 @@ library(lubridate)
 
 
 ```{r include=FALSE}
+#one year data
 x1 <- fromJSON("Data/StreamingHistory0.json")
 x1 <- data.frame(x1)
 x2 <- fromJSON("Data/StreamingHistory1.json")
@@ -36,6 +36,21 @@ playlists <- playlist$playlists
 
 ```
 
+```{r}
+#importing lifetime streams
+library(jsonlite)
+streams_life <- data.frame()
+for(i in 1:7){
+  filepath <- paste("Data2/endsong_",i-1,".json", sep="")
+  x <- fromJSON(filepath)
+  x <- data.frame(x)
+  streams_life <- rbind(streams_life, x)
+}
+streams <- streams_life %>% 
+  rename(track = master_metadata_track_name, artist = master_metadata_album_artist_name, album = master_metadata_album_album_name, uri = spotify_track_uri) %>% 
+  filter(year(ts)=="2021", ms_played >10000) %>% 
+  select(ts, platform, ms_played, track, artist, album, uri, reason_start, reason_end, shuffle, skipped)
+```
 
 ## Day 1: December 22, 2021
 
@@ -47,12 +62,12 @@ head(streams) %>%
   kable_styling()
 ```
 
-This chart shows the time at which the track was ended, the artist, the name of the track, and how long the track was played. The final column *msPlayed* stands for milliseconds played, so a conversion is necessary here in order to consider song lengths in seconds or minutes. 
+This chart shows the time at which the track was ended, the artist, the name of the track, and how long the track was played. The final column *ms_played* stands for milliseconds played, so a conversion is necessary here in order to consider song lengths in seconds or minutes. 
 
 ```{r}
 streams <- streams %>% 
-  mutate(sec = msPlayed / 1000)
-streams$endTime <- as.POSIXct(streams$endTime)
+  mutate(sec = ms_played / 1000)
+streams$ts <- as.POSIXct(streams$ts)
 head(streams) %>% 
   kbl() %>% 
   kable_styling()
@@ -62,15 +77,15 @@ Taylor Swift was my top artist of 2021, so now I want to know which of her songs
 
 ```{r fig.height=10}
 tswizzle <- streams %>% 
-  filter(format(endTime, "%Y") == 2021, artistName == "Taylor Swift", msPlayed > 10000) %>% 
-  group_by(trackName) %>% 
+  filter(format(ts, "%Y") == 2021, artist == "Taylor Swift", ms_played > 10000) %>% 
+  group_by(track) %>% 
   summarize(plays = n()) %>% 
   arrange(desc(plays))
 tswizzle[1:20,] %>% 
   kbl() %>% 
   kable_styling()
 ggplot(tswizzle[1:20,]) +
-  geom_bar(aes(x=trackName, y=plays), stat="identity") +
+  geom_bar(aes(x=track, y=plays), stat="identity") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
@@ -84,8 +99,8 @@ Now the goal is to join the album name into the `tswizzle` table. Connecting to 
 
 ```{r}
 tswizz_albums <- tswizzle %>%
-  left_join(subset(lib.tracks, artist == "Taylor Swift"), by = c("trackName" = "track")) %>% 
-  select(trackName, album, plays)
+  left_join(subset(lib.tracks, artist == "Taylor Swift"), by = c("track" = "track")) %>% 
+  select(track, album, plays)
 head(tswizz_albums) %>% 
   kbl() %>% 
   kable_styling()
@@ -95,12 +110,12 @@ The problem with this is that we have NA for some album titles. This theoretical
 
 ```{r fig.height=10}
 ggplot(tswizzle[1:20,]) +
-  geom_bar(aes(x=trackName, y=plays, fill="light red"), stat="identity") +
-  geom_text(aes(x=trackName, y=plays, label=plays), vjust="top") +
+  geom_bar(aes(x=track, y=plays, fill="light red"), stat="identity") +
+  geom_text(aes(x=track, y=plays, label=plays), vjust="top") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),panel.background = element_rect(fill="white"), axis.line=element_line(colour="black")) +
   labs(title = "Top 20 Taylor Swift Songs", x="Song", y="Number of Plays") +
-  annotate("text", x=18, y = 68, label="Data: Spotify", color= "light gray") +
-  annotate("text", x=18, y=65, label = "Viz: @KaraGodsey", color = "light gray") +
+  ggplot2::annotate("text", x=18, y = 68, label="Data: Spotify", color= "light gray") +
+  ggplot2::annotate("text", x=18, y=65, label = "Viz: @KaraGodsey", color = "light gray") +
   guides(fill = FALSE)
 ```
 
@@ -132,16 +147,16 @@ To do this with artist names, the names have to be smashed together otherwise it
 
 ```{r}
 artists <- streams %>% 
-  filter(msPlayed > 10000) %>% #filtering out skips
-  select(artistName)
-#gsub(" ","",artists$artistName) #removing spaces
+  filter(ms_played > 10000) %>% #filtering out skips
+  select(artist)
+#gsub(" ","",artists$artist) #removing spaces
 ```
 
 The article recommends converting to a corpus, but because my data is already in tables, this is not necessary. Instead, I will just use `dplyr` functions to make a table of the frequencies that can be used to generate a word cloud.
 
 ```{r}
 summary <- artists %>% 
-  group_by(artistName) %>% 
+  group_by(artist) %>% 
   summarize(freq = n()) %>% 
   arrange(desc(freq))
 ```
@@ -149,7 +164,7 @@ summary <- artists %>%
 And finally, the generation of the word cloud. Although there are just over 1,000 unique artists in this data set, the word cloud is restricted to the top 100 to avoid the additional time it takes to generate the Markdown file with so many data points.
 
 ```{r}
-wordcloud(words=summary$artistName, freq=summary$freq, min.freq=1, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(20, "Dark2"))
+wordcloud(words=summary$artist, freq=summary$freq, min.freq=1, max.words=100, random.order=FALSE, rot.per=0.35, colors=brewer.pal(20, "Dark2"))
 ```
 
 ## Day 4: January 2, 2022
@@ -169,7 +184,7 @@ Next, I attempted to get a word cloud with the custom shape as well as size of w
 
 ```{r eval=FALSE}
 top <- artists %>% 
-  group_by(artistName) %>% 
+  group_by(artist) %>% 
   summarize(freq = n()) %>% 
   arrange(desc(freq))
 top200 <- top[1:200,]
@@ -185,7 +200,7 @@ Thanks to my brilliant roommate, the resulting graphic is composed of all titles
 
 ```{r}
 top <- artists %>% 
-  group_by(artistName) %>% 
+  group_by(artist) %>% 
   summarize(freq = n()) %>% 
   arrange(desc(freq))
 top250 <- top[1:250,]
@@ -205,8 +220,8 @@ Time to track number of plays per day. Using the lubridate package, we will brea
 
 ```{r}
 streams_noskips <- streams %>% 
-  filter(msPlayed >10000) %>% 
-  mutate(day = yday(endTime), month= month(endTime))
+  filter(ms_played >10000) %>% 
+  mutate(day = yday(ts), month= month(ts))
 byday <- streams_noskips %>% 
   group_by(day) %>% 
   summarize(plays = n())
@@ -259,3 +274,36 @@ ggplot(bymonth, aes(month, plays)) +
 ```
 
 The green here is a little more muted, which is better to look at and more consistent with the logo. I like that the black extends past the axes, but my roommate did not like that so we shall see if it sticks.
+
+##Day 6: January 9, 2022
+
+I have successfully acquired and imported my lifetime streaming data. Now, my 2021 data goes from 1/1 to 12/27. 
+
+First order of business is to revisit the Taylor Swift plot to add in the album information and hopefully color it by album.
+
+```{r}
+taylor <- streams %>% 
+  filter(artist == "Taylor Swift") %>% 
+  select(track, album, ms_played) %>% 
+  group_by(track, album) %>% 
+  summarize(plays = n()) %>% 
+  arrange(desc(plays))
+taylor2 <- taylor %>% 
+  mutate(track = gsub(" \\(Taylor’s Version\\)", "",track),
+         album = gsub(" \\(Taylor's Version\\)","",album))
+taylor[1:20,] %>% 
+  kbl() %>% 
+  kable_styling()
+```
+
+This table lines up with the previous table so we can proceed to updating the graph.
+
+```{r fig.height=10}
+ggplot(taylor[1:20,]) +
+  geom_bar(aes(x=track, y=plays, fill=album), stat="identity") +
+  geom_text(aes(x=track, y=plays, label=plays), vjust="top") +
+  labs(title = "Top 20 Taylor Swift Songs", x="Song", y="Number of Plays") +
+  ggplot2::annotate("text", x=18, y=68, label="Data: Spotify", color="light gray") +
+  ggplot2::annotate("text", x=18, y=65, label="Viz: @KaraGodsey", color="light gray") +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1), panel.background = element_rect(fill="white"), axis.line=element_line(colour="black"),title=element_text(hjust=0.5))
+```

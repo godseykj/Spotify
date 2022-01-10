@@ -34,3 +34,13 @@ tswizzle <- tswizzle %>%
   left_join(subset(lib.tracks, artist == "Taylor Swift"), by = c("trackName" = "track")) %>% 
   select(trackName, album, plays)
 head(tswizzle)
+
+#importing lifetime streams
+library(jsonlite)
+streams_life <- data.frame()
+for(i in 1:7){
+  filepath <- paste("Data2/endsong_",i-1,".json", sep="")
+  x <- fromJSON(filepath)
+  x <- data.frame(x)
+  streams_life <- rbind(streams_life, x)
+}
