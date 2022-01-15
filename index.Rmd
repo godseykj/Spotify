@@ -275,7 +275,7 @@ ggplot(bymonth, aes(month, plays)) +
 
 The green here is a little more muted, which is better to look at and more consistent with the logo. I like that the black extends past the axes, but my roommate did not like that so we shall see if it sticks.
 
-##Day 6: January 9, 2022
+## Day 6: January 9, 2022
 
 I have successfully acquired and imported my lifetime streaming data. Now, my 2021 data goes from 1/1 to 12/27. 
 
@@ -298,12 +298,55 @@ taylor[1:20,] %>%
 
 This table lines up with the previous table so we can proceed to updating the graph.
 
-```{r fig.height=10}
+## January 14, 2022
+
+```{r fig.height=10,fig.width=15}
+ts_albums <- taylor %>% 
+  group_by(album) %>% 
+  summarize(plays = sum(plays)) %>% 
+  mutate(color = 
+           case_when(album=="Fearless" ~ "gold",
+                     album=="Fearless (Taylor's Version)" ~ "gold",
+                     album=="Speak Now" ~ "purple",
+                     album=="Red" ~ "red",
+                     album=="Red (Taylor's Version)" ~ "red",
+                     album=="1989" ~ "lightblue",
+                     album=="eputation" ~ "black",
+                     album=="Lover" ~ "hotpink",
+                     album=="folklore" ~ "gray",
+                     album=="evermore" ~ "goldenrod4",
+                     album=="All Too Well (Sad Girl Autumn Version) - Recorded at Long Pond Studios" ~ "Red",
+                     TRUE ~ "green"
+           )
+    ) 
+library(gplots)
+ts_albums$hex <- gplots::col2hex(ts_albums$color)
+tsColors <- ts_albums$hex
+names(tsColors) <- ts_albums$album
+taylor <- taylor %>% 
+  left_join(ts_albums, by=c("album"="album")) %>% 
+  rename(tot_album_plays = plays.y, plays = plays.x)
 ggplot(taylor[1:20,]) +
   geom_bar(aes(x=track, y=plays, fill=album), stat="identity") +
-  geom_text(aes(x=track, y=plays, label=plays), vjust="top") +
+  scale_fill_manual(values=tsColors, limits=c("Red","Fearless (Taylor's Version)","evermore","folklore","Lover","Red (Taylor's Version)","All Too Well (Sad Girl Autumn Version) - Recorded at Long Pond Studios")) +
+  geom_text(aes(x=track, y=plays, label=plays), vjust=-0.25) +
   labs(title = "Top 20 Taylor Swift Songs", x="Song", y="Number of Plays") +
   ggplot2::annotate("text", x=18, y=68, label="Data: Spotify", color="light gray") +
   ggplot2::annotate("text", x=18, y=65, label="Viz: @KaraGodsey", color="light gray") +
   theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1), panel.background = element_rect(fill="white"), axis.line=element_line(colour="black"),title=element_text(hjust=0.5))
 ```
+
+Updated the graph to include album colors. This graph is not terribly appealing to me.
+
+## January 15, 2022
+
+I want to make a circular graph showing which albums I listened to the most.
+
+```{r}
+ggplot(ts_albums) +
+  geom_bar(aes(x=album, y=plays, fill=color), stat="identity") +
+  coord_polar()
+```
+
+The words here are alarming and this is not totally what I was going for...to be revisited. Also the legend should be the albums not the colors.
+
