@@ -44,3 +44,23 @@ for(i in 1:7){
   x <- data.frame(x)
   streams_life <- rbind(streams_life, x)
 }
+streams_life <- streams_life %>% 
+  rename(track = master_metadata_track_name, artist = master_metadata_album_artist_name, album = master_metadata_album_album_name, uri = spotify_track_uri)
+
+#top taylor swift albums
+tsalbums <- streams_life %>% 
+  filter(artist == "Taylor Swift", ms_played > 10000) %>% 
+  mutate(album = replace(album, album == "Red (Taylor's Version)", "Red"),
+         album = replace(album, album %in% c("Fearless Platinum Edition", "Fearless (Taylor's Version)"), "Fearless")) %>% 
+  group_by(album) %>% 
+  summarize(plays = n(), percent = round((plays / sum(tsalbums[1:9,2]))*100,1)) %>% 
+  arrange(desc(plays)) %>% 
+  head(9)
+
+#favorite song
+favsong <- streams_life %>% 
+  filter(ms_played > 10000) %>% 
+  group_by(track, artist) %>% 
+  summarize(plays = n()) %>% 
+  arrange(desc(plays)) %>% 
+  head(10)
