@@ -53,9 +53,10 @@ tsalbums <- streams_life %>%
   mutate(album = replace(album, album == "Red (Taylor's Version)", "Red"),
          album = replace(album, album %in% c("Fearless Platinum Edition", "Fearless (Taylor's Version)"), "Fearless")) %>% 
   group_by(album) %>% 
-  summarize(plays = n(), percent = round((plays / sum(tsalbums[1:9,2]))*100,1)) %>% 
+  summarize(plays = n()) %>% 
   arrange(desc(plays)) %>% 
-  head(9)
+  head(9) %>% 
+  mutate(percent = round((plays / sum(plays))*100,1))
 
 #favorite song
 favsong <- streams_life %>% 

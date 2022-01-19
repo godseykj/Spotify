@@ -46,8 +46,9 @@ for(i in 1:7){
   x <- data.frame(x)
   streams_life <- rbind(streams_life, x)
 }
+streams_life <- streams_life %>% 
+  rename(track = master_metadata_track_name, artist = master_metadata_album_artist_name, album = master_metadata_album_album_name, uri = spotify_track_uri)
 streams <- streams_life %>% 
-  rename(track = master_metadata_track_name, artist = master_metadata_album_artist_name, album = master_metadata_album_album_name, uri = spotify_track_uri) %>% 
   filter(year(ts)=="2021", ms_played >10000) %>% 
   select(ts, platform, ms_played, track, artist, album, uri, reason_start, reason_end, shuffle, skipped)
 ```
@@ -349,4 +350,39 @@ ggplot(ts_albums) +
 ```
 
 The words here are alarming and this is not totally what I was going for...to be revisited. Also the legend should be the albums not the colors.
+
+## January 18, 2022
+
+Today's task inspired by a tweet sent to me from my roommate. The tweet said "which one are you" and listed a different adjective for each taylor swift album. Empirically, I am "mentally ill".
+
+```{r}
+#top taylor swift albums
+tsalbums <- streams_life %>% 
+  filter(artist == "Taylor Swift", ms_played > 10000) %>% 
+  mutate(album = replace(album, album == "Red (Taylor's Version)", "Red"),
+         album = replace(album, album %in% c("Fearless Platinum Edition", "Fearless (Taylor's Version)"), "Fearless")) %>% 
+  group_by(album) %>% 
+  summarize(plays = n()) %>% 
+  arrange(desc(plays)) %>% 
+  head(9) %>% 
+  mutate(percent = round((plays / sum(plays))*100,1))
+tsalbums %>% 
+  kbl() %>% 
+  kable_styling()
+```
+
+Closely related, I have wanted to know what my favorite song is. So far, we've got Niall Horan coming in at number 1 with Everywhere.
+
+```{r}
+#favorite song
+favsong <- streams_life %>% 
+  filter(ms_played > 10000) %>% 
+  group_by(track, artist) %>% 
+  summarize(plays = n()) %>% 
+  arrange(desc(plays)) %>% 
+  head(10)
+favsong %>% 
+  kbl() %>% 
+  kable_styling()
+```
 
