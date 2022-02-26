@@ -56,7 +56,7 @@ for(i in 1:7){
 streams_life <- streams_life %>% 
   rename(track = master_metadata_track_name, artist = master_metadata_album_artist_name, album = master_metadata_album_album_name, uri = spotify_track_uri)
 streams <- streams_life %>% 
-  filter(year(ts)=="2021", ms_played >10000) %>% 
+  filter(year(ts)=="2021") %>% 
   select(ts, platform, ms_played, track, artist, album, uri, reason_start, reason_end, shuffle, skipped)
 ```
 
@@ -391,5 +391,49 @@ favsong <- streams_life %>%
 favsong %>% 
   kbl() %>% 
   kable_styling()
+```
+
+
+
+## Day 10: February 26, 2022
+
+Today's goal is to make a calendar graph showing the frequency with which I listened to music each day of a specific month. This work is inspired by two data visualizations, one about the Tuskegee Airmen and the second about Peloton data. The code I have written below was based on the code written for each of these data visualizations and that code can be found [here](https://github.com/moriahtaylor1/tidy-tuesday/blob/main/2022_Week06/TT_TuskegeeAirmen.R) and [here](https://github.com/tashapiro/peloton-stats/blob/main/code/peloton-active-days-calendar.R), respectively.
+
+```{r}
+s21cal <- streams
+s21cal$day_num <- day(s21cal$ts)
+s21cal$month <- month(s21cal$ts)
+s21cal$year <- year(s21cal$ts)
+s21cal$weekday <- wday(s21cal$ts, label=TRUE)
+s21cal$month_name <- factor(format(s21cal$ts, "%B"), levels=c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))
+s21cal$day <- factor(s21cal$weekday, levels=c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
+s21cal$week_num <- strftime(s21cal$ts, format="%V")
+s21cal[s21cal$week_num>=52 & s21cal$month==1,"week_num"]=00
+s21cal$week_num <- as.integer(s21cal$week_num)
+
+week_month <- s21cal %>% 
+  group_by(year, month_name, week_num) %>% 
+  summarise() %>% 
+  mutate(week_month_num=row_number())
+s21cal <- s21cal %>% 
+  left_join(week_month, by=c("month_name"="month_name", "week_num"="week_num", "year"="year"))
+
+s21cal1 <- s21cal %>% filter(month==1)
+
+calplot <- ggplot(s21cal) +
+  geom_tile(mapping=aes(x=day,y=week_month_num), fill=NA) +
+  geom_text(mapping=aes(x=day,y=week_month_num, label=day_num), color="black") +
+  geom_point(mapping=aes(x=day,y=week_month_num,color="red"), size=8) +
+  geom_text(mapping=aes(x=day, y=week_month_num, label=day_num), color="white") +
+  scale_y_reverse() +
+  coord_fixed() +
+  facet_wrap(~month_name)
+
+calplot
+
+ggplot(s21cal1, aes(x=day_num,y=ms_played)) + 
+  geom_bar(stat="identity") +
+  coord_polar(theta="y") +
+  facet_wrap(~day_num)
 ```
 
