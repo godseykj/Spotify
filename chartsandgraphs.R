@@ -3,6 +3,7 @@ library(kableExtra)
 library(dplyr)
 library(ggplot2)
 library(lubridate)
+library(ggrepel)
 
 streams_life <- data.frame()
 for(i in 1:7){
@@ -177,3 +178,27 @@ songs <- ts(tsdata, start=)
 sequence <- seq.POSIXt(as.POSIXct("2021-01-01 0:00",'%m/%d/%y %H:%M', tz="UTC"), as.POSIXct("2021-12-31 23:59",'%m/%d/%y %H:%M', tz="UTC"), by="day")
 df <- data.frame(timestamp=sequence)
 tsdata <- full_join(df,tsdata$songs)
+
+#total songs listened/unique songs listened
+eachsong <- streams21 %>%
+  group_by(artist, track) %>% 
+  summarize(listens = n())
+uniquesongs <- eachsong %>% 
+  group_by(artist) %>% 
+  summarize(songs = n())
+totalsongs <- eachsong %>% 
+  group_by(artist) %>% 
+  summarize(listens = sum(listens))
+songs <- uniquesongs %>% 
+  left_join(totalsongs, by=c("artist"))
+ggplot(filter(songs, artist != "Taylor Swift"), aes(x=songs, y=listens, label=artist)) +
+  geom_point() +
+  geom_text_repel(data=filter(songs, artist != "Taylor Swift" & (songs >= 50 | listens >= 300)),
+                              min.segment.length = unit(0, 'lines')) + #hjust=0.75,vjust=1 
+  labs(title = "Distinct vs Total Listens", x = "Unique Songs", y = "Total Songs")
+songs2 <- songs %>% 
+  mutate(replays = listens - songs, replaypct = listens/replays)
+ggplot(songs2, aes(x=replays, y=listens, label=artist)) +
+  geom_point() +
+  geom_text() +
+  geom_abline(aes(intercept=0, slope=1))

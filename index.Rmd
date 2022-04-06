@@ -23,25 +23,6 @@ library(lubridate)
 ```
 
 
-```{r include=FALSE}
-#one year data
-x1 <- fromJSON("Data/StreamingHistory0.json")
-x1 <- data.frame(x1)
-x2 <- fromJSON("Data/StreamingHistory1.json")
-x2 <- data.frame(x2)
-x3 <- fromJSON("Data/StreamingHistory2.json")
-x3 <- data.frame(x3)
-streams <- rbind(x1,x2,x3)
-library <- fromJSON("Data/YourLibrary.json", flatten=TRUE)
-#View(library)
-str(library)
-lib.tracks <- data.frame(library$tracks)
-lib.albums <- data.frame(library$albums)
-lib.artists <- data.frame(library$artists)
-playlist <- fromJSON("Data/Playlist1.json")
-playlists <- playlist$playlists
-
-```
 
 ```{r}
 #importing lifetime streams
@@ -272,13 +253,14 @@ ggplot(bymonth, aes(month, plays)) +
 This is real nice, now let's see if we can change up the aesthetic a bit.
 
 ```{r}
-ggplot(bymonth, aes(month, plays)) +
+bymonth <- ggplot(bymonth, aes(month, plays)) +
   geom_bar(color="green3",stat="identity", fill="green3") +
   labs(title = "Plays by Month", x = "Month", y = "Number of Plays") +
   theme(panel.background = element_rect(fill="black"), axis.line=element_line(color="green3"), panel.grid = element_line("black"), plot.background =  element_rect(fill="black"), axis.text = element_text(colour = "white"), axis.title = element_text(colour = "white"), title = element_text(colour = "white", hjust=0.5), plot.title=element_text(hjust=0.5)) +
   geom_text(aes(x=month, y=plays, label=plays), vjust="top", color = "black") +
   scale_x_continuous(breaks=seq(1,12),labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")) +
   coord_cartesian(clip = "off")
+bymonth
 ```
 
 The green here is a little more muted, which is better to look at and more consistent with the logo. I like that the black extends past the axes, but my roommate did not like that so we shall see if it sticks.
@@ -423,11 +405,12 @@ s21cal1 <- s21cal %>% filter(month==1)
 calplot <- ggplot(s21cal) +
   geom_tile(mapping=aes(x=day,y=week_month_num), fill=NA) +
   geom_text(mapping=aes(x=day,y=week_month_num, label=day_num), color="black") +
-  geom_point(mapping=aes(x=day,y=week_month_num,color="red"), size=8) +
+  geom_point(mapping=aes(x=day,y=week_month_num),color="green3", size=8) +
   geom_text(mapping=aes(x=day, y=week_month_num, label=day_num), color="white") +
   scale_y_reverse() +
   coord_fixed() +
-  facet_wrap(~month_name)
+  facet_wrap(~month_name) +
+  theme(panel.background = element_rect(fill="black"), axis.line=element_line(color="green3"), panel.grid = element_line("black"), plot.background =  element_rect(fill="black"), axis.text = element_text(colour = "white"), axis.title = element_text(colour = "white"), title = element_text(colour = "white", hjust=0.5), plot.title=element_text(hjust=0.5))
 
 calplot
 
